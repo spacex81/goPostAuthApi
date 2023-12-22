@@ -6,6 +6,7 @@ type Post struct {
 	ID        int64     `gorm:"primary_key;auto_increment" json:"id"`
 	Title     string    `gorm:"size:200" json:"title"`
 	Body      string    `gorm:"size:300" json:"body"`
+	UserID    int64     `json:"user_id"` // Foreign key
 	CreatedAt time.Time `json:"created_at,omitempty"`
 	UpdatedAt time.Time `json:"updated_at,omitempty"`
 }

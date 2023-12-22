@@ -28,6 +28,6 @@ func main() {
 	userRoute := routes.NewUserRoute(userController, router)
 	userRoute.Setup()
 
-	db.DB.AutoMigrate(&models.Post{}, &models.User{})
+	db.DB.AutoMigrate(&models.User{}, &models.Post{})
 	router.Gin.Run(":8000")
 }

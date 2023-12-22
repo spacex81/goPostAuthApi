@@ -44,3 +44,19 @@ func (u UserRepository) LoginUser(user models.UserLogin) (*models.User, error) {
 	}
 	return &dbUser, nil
 }
+
+func (u UserRepository) FindUserById(user models.User) (*models.User, error) {
+	var dbUser models.User
+	id := user.ID
+	//email := user.Email
+	//password := user.Password
+	//
+	//err := u.db.DB.Where("email = ?", email).First(&dbUser).Error
+	err := u.db.DB.Where("id = ?", id).First(&dbUser).Error
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &dbUser, nil
+}

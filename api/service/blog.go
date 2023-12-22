@@ -23,6 +23,10 @@ func (p PostService) FindAll(post models.Post, keyword string) (*[]models.Post, 
 	return p.repository.FindAll(post, keyword)
 }
 
+func (p PostService) GetPostsById(id int64) (*[]models.Post, int64, error) {
+	return p.repository.GetPostsById(id)
+}
+
 func (p PostService) Update(post models.Post) error {
 	return p.repository.Update(post)
 }
@@ -35,4 +39,10 @@ func (p PostService) Delete(id int64) error {
 
 func (p PostService) Find(post models.Post) (models.Post, error) {
 	return p.repository.Find(post)
+}
+
+func (p PostService) UserExists(userID int64) bool {
+	var user models.User
+	err := p.repository.Db.DB.First(&user, userID).Error
+	return err == nil && user.ID > 0
 }

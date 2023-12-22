@@ -47,6 +47,37 @@ func (p PostController) GetPosts(ctx *gin.Context) {
 	})
 }
 
+func (p PostController) GetPostsById(ctx *gin.Context) {
+	idParam := ctx.Param("id")
+	id, err := strconv.ParseInt(idParam, 10, 64)
+	//
+	//keyword := ctx.Query("keyword")
+	//
+	//data, total, err := p.service.FindAll(posts, keyword)
+	data, total, err := p.service.GetPostsById(id)
+
+	if err != nil {
+		util.ErrorJSON(ctx, http.StatusBadRequest, "user doesn't exists || post doesn't exist for user")
+		return
+	}
+
+	respArr := make([]map[string]interface{}, 0, 0)
+
+	for _, n := range *data {
+		resp := n.ResponseMap()
+		respArr = append(respArr, resp)
+	}
+
+	ctx.JSON(http.StatusOK, &util.Response{
+		Success: true,
+		Message: "Post result set",
+		Data: map[string]interface{}{
+			"rows":       respArr,
+			"total_rows": total,
+		},
+	})
+}
+
 func (p *PostController) AddPost(ctx *gin.Context) {
 	var post models.Post
 	ctx.ShouldBindJSON(&post)
@@ -60,6 +91,12 @@ func (p *PostController) AddPost(ctx *gin.Context) {
 		util.ErrorJSON(ctx, http.StatusBadRequest, "Body is required")
 		return
 	}
+
+	if !p.service.UserExists(post.UserID) {
+		util.ErrorJSON(ctx, http.StatusNotFound, "User doesn't exist")
+		return
+	}
+
 	err := p.service.Save(post)
 	if err != nil {
 		util.ErrorJSON(ctx, http.StatusBadRequest, "Failed to create post")

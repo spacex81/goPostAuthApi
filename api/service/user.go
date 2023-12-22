@@ -22,3 +22,15 @@ func (u UserService) CreateUser(user models.UserRegister) error {
 func (u UserService) LoginUser(user models.UserLogin) (*models.User, error) {
 	return u.repo.LoginUser(user)
 }
+
+func (u UserService) UserExists(id int64) bool {
+	var user models.User
+	user.ID = id
+	_, err := u.repo.FindUserById(user)
+
+	if err != nil {
+		return false
+	} else {
+		return true
+	}
+}

@@ -19,9 +19,10 @@ func NewPostRoute(
 }
 
 func (p PostRoute) Setup() {
-	post := p.Handler.Gin.Group("/posts") // Router group
+	post := p.Handler.Gin.Group("/posts")
 	{
 		post.GET("/", p.Controller.GetPosts)
+		post.GET("byuser/:id", p.Controller.GetPostsById) // added
 		post.POST("/", p.Controller.AddPost)
 		post.GET("/:id", p.Controller.GetPost)
 		post.DELETE("/:id", p.Controller.DeletePost)

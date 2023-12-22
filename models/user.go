@@ -11,6 +11,7 @@ type User struct {
 	IsActive  bool      `json:"is_active"`
 	CreatedAt time.Time `json:"created_at", omitempty`
 	UpdatedAt time.Time `json:"updated_at", omitempty`
+	Posts     []Post    `gorm:"foreignKey:UserID" json:"posts,omitempty"`
 }
 
 func (user *User) TableName() string {
