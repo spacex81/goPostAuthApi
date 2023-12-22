@@ -3,6 +3,7 @@ package repository
 import (
 	"blog/infrastructure"
 	"blog/models"
+	"log"
 )
 
 type PostRepositoryInterface interface {
@@ -25,6 +26,7 @@ func NewPostRepository(db infrastructure.Database) PostRepository {
 }
 
 func (p PostRepository) Save(post models.Post) error {
+	log.Println("random change for testing github actions")
 	return p.Db.DB.Create(&post).Error
 }
 
