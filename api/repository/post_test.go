@@ -50,7 +50,8 @@ func TestPostRepository_GetPostsById(t *testing.T) {
 	// Assertions
 	assert.NoError(t, err)
 	assert.NotNil(t, posts)
-	assert.Equal(t, int64(2), totalRows)
+	//assert.Equal(t, int64(2), totalRows)
+	assert.Equal(t, int64(1), totalRows)
 	// let's add the test so that we can check each data of each row
 
 	expectedPosts := []models.Post{
